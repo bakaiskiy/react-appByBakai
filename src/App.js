@@ -4,15 +4,16 @@ import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import Routing from './Routing';
 
+import ProductsContextProvider from './contexts/productsContext';
 import './App.css';
 
 const App = () => {
   return (
-    <div>
+    <ProductsContextProvider>
       <Header />
       <Routing />
       <Footer />
-    </div>
+    </ProductsContextProvider>
   );
 };
 
