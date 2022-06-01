@@ -1,19 +1,21 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, Breadcrumbs, Button, Container, Link, TextField, Typography } from '@mui/material';
 import { productsContext } from '../../contexts/productsContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import Loader from '../Loader/Loader';
 
 // title, description, price, image
 
-const AddProductForm = () => {
-    const { createProduct } = useContext(productsContext)
+const EditProductForm = () => {
+    const { getOneProduct, oneProduct, updateProduct } = useContext(productsContext)
+    const { id } = useParams()
     const navigate = useNavigate()
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [image, setImage] = useState('')
     function handleValues (){
-        let newProduct = {
+        let editedProduct = {
             title,
             description,
             price,
@@ -23,10 +25,21 @@ const AddProductForm = () => {
             alert("заполните поля!")
             return
         }
-        createProduct(newProduct)
+        updateProduct(id, editedProduct)
         navigate("/products")
     }
-    return (
+    useEffect(()=> {
+        getOneProduct(id)
+    },[])
+    useEffect(()=> {
+        if(oneProduct){
+            setTitle(oneProduct.title)
+            setPrice(oneProduct.price)
+            setImage(oneProduct.image)
+            setDescription(oneProduct.description)
+        }
+    },[oneProduct])
+    return oneProduct ? (
         <Container maxWidth="sm">
             <Breadcrumbs aria-label="breadcrumb">
                 <Link underline="hover" color="inherit" href="/">
@@ -38,18 +51,18 @@ const AddProductForm = () => {
                     href="/products">
                 Products
                 </Link>
-            <Typography color="text.primary">Add</Typography>
+            <Typography color="text.primary">Edit</Typography>
             </Breadcrumbs>
             <Box display={"flex"} flexDirection={"column"} padding={"30px"} textAlign={"center"}>
-                <Typography variant="h4" component="h2">Add new product</Typography>
+                <Typography variant="h4" component="h2">Edit product</Typography>
                 <TextField value={title} onChange={(e) => setTitle(e.target.value)} id="standard-basic" label="Title" variant="standard" style={{margin: "10px"}} />
                 <TextField value={description} onChange={(e) => setDescription(e.target.value)} id="standard-basic" label="Description" variant="standard" style={{margin: "10px"}}/>
                 <TextField value={price} onChange={(e) => setPrice(e.target.value)} id="standard-basic" label="Price" variant="standard" style={{margin: "10px"}}/>
                 <TextField value={image} onChange={(e) => setImage(e.target.value)} id="standard-basic" label="Image" variant="standard" style={{margin: "10px"}}/>
-                <Button onClick={handleValues} style={{margin: "10px"}} variant="contained" color="success">Add product</Button>
+                <Button onClick={handleValues} style={{margin: "10px"}} variant="contained" color="success">Save product</Button>
             </Box>
         </Container>
-    );
+    ) : <Loader />;
 };
 
-export default AddProductForm;
+export default EditProductForm;
