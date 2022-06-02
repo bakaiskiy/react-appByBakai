@@ -59,7 +59,7 @@ const Filters = ({ search, setSearch, price, setPrice }) => {
       </Search>
 
       <Slider
-        getAriaLabel={() => "Temperature range"}
+        // getAriaLabel={() => "Temperature range"}
         value={price}
         onChange={(e, value) => setPrice(value)}
         valueLabelDisplay="auto"
