@@ -7,14 +7,20 @@ import Routing from "./Routing";
 import ProductsContextProvider from "./contexts/productsContext";
 import AuthContextProvider from "./contexts/authContext";
 import "./App.css";
+import CartContextProvider from "./contexts/cartContext";
+import { BrowserRouter } from "react-router-dom";
 
 const App = () => {
   return (
     <AuthContextProvider>
       <ProductsContextProvider>
-        <Header />
-        <Routing />
-        <Footer />
+        <CartContextProvider>
+          <BrowserRouter>
+            <Header />
+            <Routing />
+            <Footer />
+          </BrowserRouter>
+        </CartContextProvider>
       </ProductsContextProvider>
     </AuthContextProvider>
   );

@@ -29,7 +29,7 @@ const ProductsList = () => {
   useEffect(() => {
     getProducts();
   }, [searchParams]);
-  console.log(pages);
+  // console.log(pages);
   //   console.log(price);
 
   //   console.log(searchParams.get("q"));
